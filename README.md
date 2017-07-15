@@ -2,7 +2,7 @@
 This is a fast, light Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the following DropBox link:
 
 ```HTML
-<script src="" type="text/javascript"></scirpt>
+<script src="" type="text/javascript"></script>
 ```
 
 # When To & When Not To Use This Polyfill
