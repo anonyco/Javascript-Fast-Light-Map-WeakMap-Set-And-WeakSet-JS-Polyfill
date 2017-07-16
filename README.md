@@ -19,6 +19,7 @@ A potential problem with this polyfill, or any other Map polyfills, are 'memory 
     
     while (i--)
         myMap.set({}, longString += i)
+    
     console.log(longString.length * myMap.length)
 ```
 
