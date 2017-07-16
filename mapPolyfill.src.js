@@ -11,7 +11,7 @@ if (!window.Map)
         if (!~keycur) return false;
         this.k.splice(keycur, 1);
         this.v.splice(keycur, 1);
-        --regularmapproto.length;
+        --this.size;
         return true;
     }
     mapproto.get = function( key ){
@@ -64,7 +64,7 @@ if (!window.Map)
     /*window.*/Map = function(iterable){
         if (iterable instanceof Array){
             // split up the data into two useable streams: one for keys (k), and one for values (v)
-            keycur = iterable.length;
+            this.size = keycur = iterable.length;
             var k = new Array(keycur),
                 v = new Array(keycur);
             
@@ -75,11 +75,11 @@ if (!window.Map)
             this.k = k, this.v = v;
         } else this.k = [], this.v = [];
     }
-    Window.Map.prototype = mapproto;
+    /*Window*/Map.prototype = mapproto;
 })();
 if (!window.WeakMap) // maps are able to be used to polyfill weakmaps
   Object.defineProperty(
-    (/*window.*/WeakMap = window.Map),
+    (/*window.*/WeakMap = window.Map).prototype,
     'length',
     { get: function() { return this.size } }
   );
