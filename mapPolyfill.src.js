@@ -1,4 +1,4 @@
-//anonyco
+//Copyright (c) 2017 anonyco
 if (!window.Map)
 (function(){
     'use-strict';
