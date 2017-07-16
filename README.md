@@ -1,5 +1,5 @@
 # Fast & Light Map & WeakMap Polyfill
-This is a fast, light Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the following DropBox link:
+This is a fast, light Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the script hosted @ dropbox by inserting the following into your `<head>`.
 
 ```HTML
 <script src="https://www.dropbox.com/s/rrsp5c8kmctklrj/mapPolyfill.min.js?dl=1" type="text/javascript"></script>
