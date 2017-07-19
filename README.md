@@ -24,6 +24,7 @@ A potential problem with this polyfill, or many other Map polyfills, are 'memory
 ```
 
 The unavoidable, unfixable reason for this is because there currently is no way to assign weak references (or better yet, weak tables) to objects in javascript, which would allow the transpiler to know that its safe to ignore specific references to something.
+
 However, Benive has devised an alternative polyfill solution that fixed this memory leak bug by using properties on the objects, and covering up the fact that they exist. **Don't** go rushing to his polyfill just yet. It comes with many (quite severe) penalities that will damage your javascripts performance to a much greater extent than this memory leak:
 
   * Even if the browser already supports WeakMaps (which most browsers now do), then Benive's solution will still overwrite the native `object.getOwnPropertyNames` method, resulting in making the rest of your code signifigantly slower even if the browser already supports WeakMaps.
