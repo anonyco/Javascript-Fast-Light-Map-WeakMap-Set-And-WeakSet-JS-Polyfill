@@ -12,7 +12,7 @@ if (!weakMapMinimal){
         },
         get: key => {
             return weakMapMinimalVALUE[weakMapMinimalKEY.lastIndexOf(key)];
-        }
+        },
         set: (key, value) => {
             keycur = weakMapMinimalKEY.lastIndexOf(key);
             if (!~keycur) weakMapMinimalKEY[keycur = weakMapMinimalKEY.length] = key;
