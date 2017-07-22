@@ -30,9 +30,10 @@ if (!window.Map)
         this.v.splice(0, this.size);
         this.size = 0;
     }
-    mapproto.forEach = function( func, thisArg ){
-        appliedToEach = thisArg ? func.bind(thisArg) : func, Iterator = this.size;
-        while (Iterator--) appliedToEach(this.k[Iterator], Iterator, this);
+    mapproto.forEach = function( Func, thisArg ){
+        if(thisArg) Func = Func.bind(thisArg);
+        Iterator = this.size;
+        while (Iterator--) Func(this.k[Iterator], Iterator, this);
     }
     mapproto.entries = function( key ){
         var nextIndex = 0, that = this, len = this.size;
