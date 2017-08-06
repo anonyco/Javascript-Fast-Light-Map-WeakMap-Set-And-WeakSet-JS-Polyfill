@@ -6,7 +6,7 @@ This is a fast, lightweight (~1.2kb uncompressed, and only 509 bytes gziped) Jav
 ```
 
 # When To & When Not To Use This Polyfill
-This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. For example, this polyfill uses regular maps with a `length` getter added as a proxy to the `size` property as a polyfill to weakmaps. This may break some scripts which heavily probe the inner workings of Weakmaps. Also, this polyfill does not do Symbols, which should be an okay thing for the majority of production code.
+This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. For example, this polyfill uses regular maps with a `length` getter added as a proxy to the `size` property as a polyfill to weakmaps. This may break some scripts which heavily probe the inner workings of Weakmaps. However, none of this should break most scripts. For example, forEach is still standards-compliant: it goes from start to end, and all the methods are available and work standards-compliantly. Also, this polyfill does not do Symbols, which should be an okay thing for the majority of production code.
 
 # Browser Support
 This polyfill should bring Map and WeakMap support to IE9.
