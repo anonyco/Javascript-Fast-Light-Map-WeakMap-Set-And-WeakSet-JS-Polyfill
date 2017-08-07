@@ -30,7 +30,7 @@
 					throw new TypeError('(' + (raw.toString || iterable.toString)() + ') is not iterable');
 				
 				while (i--)
-					if (iterable[i]){
+					if (iterable[i] instanceof Object){
 						if (!~NaNsearch(k, iterable[i][0])) // if current is not already in the array
 							k[len] = iterable[i][0], v[len++] = iterable[i][1]; // len++ increments len, but returns value before increment
 					} else
