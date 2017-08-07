@@ -6,7 +6,9 @@ This is a fast, lightweight (~1.2kb uncompressed, and only 509 bytes gziped) Jav
 ```
 
 # When To & When Not To Use This Polyfill
-This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. For example, this polyfill uses regular maps with a `length` getter added as a proxy to the `size` property as a polyfill to weakmaps. This may break some scripts which heavily probe the inner workings of Weakmaps. However, none of this should break most scripts: all the methods are available and work standards-compliantly. Basicly, if your code doesn't rely on the `Function.name`'s or the `.toString()`'s of the Map, WeakMap, Set, or WeakSet objects, then this polyfill is for you, otherwise look elsewhere. It would be easy to add in support for those things, however I seriously doubt that they would ever be used, and they would add a noticable about to the code size, so I decided not to include those things. Lastly, this polyfill does not do Symbols, which should be an okay thing for the majority of production code.
+This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. Basicly, this polyfill is 100% standards-compliant except for 2 big things:
+
+ * The iterator returned form the val
 
 # Browser Support
 This polyfill should bring Map and WeakMap support to IE9.
