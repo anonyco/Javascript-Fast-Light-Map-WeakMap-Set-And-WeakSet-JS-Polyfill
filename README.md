@@ -1,5 +1,5 @@
 # Fast & Light Map, WeakMap, Set, & WeakSet Polyfill
-This is a fast, lightweight (~1.2kb uncompressed, and only 509 bytes gziped) Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the script hosted @ dropbox by inserting the following into your `<head>`.
+This is a fast, lightweight (~1.98kb ungzipped, and only 703 bytes gziped) Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the script hosted @ dropbox by inserting the following into your `<head>`.
 
 ```HTML
 <script src="https://www.dropbox.com/s/rrsp5c8kmctklrj/mapPolyfill.min.js?dl=1" type="text/javascript"></script>
@@ -32,7 +32,7 @@ However, Benive has devised an alternative polyfill solution that fixed this mem
 
   * Even if the browser already supports WeakMaps (which most browsers now do), then Benive's solution will still overwrite the native `object.getOwnPropertyNames` method, resulting in making the rest of your code signifigantly slower even if the browser already supports WeakMaps.
   * Benive's solution has extensive usage of deeply nested function calls, resulting in a much slower performance in polyfilled browsers.
-  * Benive's solution makes extensive usage of object prototypes, making it much harder for browsers to optimize the rest of you code.
+  * Benive's solution makes extensive usage of object prototypes, making it much harder for supporting non-polyfilled browsers to optimize the rest of you code.
   * Benive's solution is, when compressed & gzipped, more than 2.5x the size of this polyfill.
 
 If you really do need his memory fix, then <a href="https://github.com/Benvie/WeakMap">you can find it here</a>.
