@@ -1,83 +1,188 @@
 //anonyco
-if (!window.Map)
 (function(){
-    'use-strict';
-    var mapproto = Object.create(null),
-        keycur, appliedToEach, Iterator;
-    
-    mapproto.size = 0;
-    mapproto.delete = function( key ){
-        keycur = this.k.lastIndexOf(key); // k is for keys
-        if (!~keycur) return false;
-        this.k.splice(keycur, 1);
-        this.v.splice(keycur, 1);
-        --this.size;
-        return true;
-    }
-    mapproto.get = function( key ){
-        return this.v[this.k.lastIndexOf(key)];
-    }
-    mapproto.set = function( key, value ){
-        keycur = this.k.lastIndexOf(key);
-        if (!~keycur) this.k[keycur = this.size++] = key;
-        this.v[keycur] = value;
-    }
-    mapproto.has = function( key ){
-        return this.k.lastIndexOf(key) !== -1;
-    }
-    mapproto.clear = function( key ){
-        this.k.splice(0, this.size);
-        this.v.splice(0, this.size);
-        this.size = 0;
-    }
-    mapproto.forEach = function( Func, thisArg ){
-        if(thisArg) Func = Func.bind(thisArg);
-        Iterator = this.size;
-        while (Iterator--) Func(this.k[Iterator], Iterator, this);
-    }
-    mapproto.entries = function( key ){
-        var nextIndex = 0, that = this, len = this.size;
-        return {
-           next: function() {
-               return nextIndex !== len ? {value: [that.k[nextIndex++], that.v[nextIndex]], done: false} : {done: true};
-           }
-        };
-    }
-    mapproto.keys = function( key ){
-        var nextIndex = 0, that = this, len = this.size;
-        return {
-           next: function() {
-               return nextIndex !== len ? {value: that.k[nextIndex++], done: false} : {done: true};
-           }
-        };
-    }
-    mapproto.values = function( key ){
-        var nextIndex = 0, that = this, len = this.size;
-        return {
-           next: function() {
-               return nextIndex !== len ? {value: that.v[nextIndex++], done: false} : {done: true};
-           }
-        };
-    }
-    /*window.*/Map = function(iterable){
-        if (iterable instanceof Array){
-            // split up the data into two useable streams: one for keys (k), and one for values (v)
-            this.size = keycur = iterable.length;
-            var k = new Array(keycur),
-                v = new Array(keycur);
-            
-            while (keycur--)
-                k[keycur] = iterable[keycur][0],
-                v[keycur] = iterable[keycur][1];
-            
-            this.k = k, this.v = v;
-        } else this.k = [], this.v = [];
-    }
-    /*Window*/Map.prototype = mapproto;
-})();
-if (!window.WeakMap) // maps are able to be used to polyfill weakmaps
-  Object.defineProperty(
-    (/*window.*/WeakMap = window.Map).prototype,
-    'length',
-    { get: function() { return this.size } }
-  );
+	'use-strict';
+	var keycur,
+		i, len,
+		k, v,
+		iterable;
+	function NaNsearch(arr, val){ // search that compensates for NaN indexs
+		if (val === val) // if val is not NaN
+			return arr.indexOf(val);
+		
+		i = 0, len = arr.length;
+		// Check for the first index that is not itself (i.e. NaN)
+		while (arr[i] === arr[i] && ++i !== len)
+			; // do nothing
+		return i;
+	}
+	
+	// Map & WeakMap polyfill
+	if (!window.Map || !/*window.*/Map.keys){
+		/*window.*/WeakMap = /*window.*/Map =  function(raw){
+			k = this.k = [];
+			v = this.v = [];
+			len = 0;
+			if (raw){
+				iterable = Object(raw);
+				// split up the data into two useable streams: one for keys (k), and one for values (v)
+				i = +iterable.length;
+				if (i !== i) // if i is NaN
+					throw new TypeError('(' + (raw.toString || iterable.toString)() + ') is not iterable');
+				
+				while (i--)
+					if (iterable[i]){
+						if (!~NaNsearch(k, iterable[i][0])) // if current is not already in the array
+							k[len] = iterable[i][0], v[len++] = iterable[i][1]; // len++ increments len, but returns value before increment
+					} else
+						throw new TypeError('Iterator value ' + iterable[i] + ' is not an entry object');
+				k.reverse();
+				v.reverse();
+			}
+			this.size = len;
+		}
+		/*window.*/Map.prototype = {
+			length: 0,
+			'delete': function( key ){
+				keycur = NaNsearch( this.k, key ); // k is for keys
+				if (!~keycur) return false;
+				this.k.splice(keycur, 1);
+				this.v.splice(keycur, 1);
+				--this.size;
+				return true;
+			},
+			'get': function( key ){
+				return this.v[NaNsearch(this.k, key)]; // automagicly returns undefined if it doesn't exist
+			},
+			'set': function( key, value ){
+				keycur = NaNsearch(this.k, key);
+				if (!~keycur) // if (keycur === -1)
+					this.k[keycur = this.size++] = key;
+				this.v[keycur] = value;
+				return this;
+			},
+			'has': function( key ){
+				return NaNsearch(this.k, key) > -1;
+			},
+			'clear': function(){
+				this.k.length = this.v.length = this.size = 0;
+				//return undefined
+			},
+			'forEach': function( Func, thisArg ){
+				if(thisArg)
+					Func = Func.bind(thisArg);
+				var i = -1, len = this.size;
+				while (++i !== len) Func(this.v[i], this.k[i], this);
+			},
+			'entries': function( ){
+				var nextIndex = 0, that = this;
+				return {
+					next: function() {
+						return nextIndex !== that.size ? {value: [that.k[nextIndex++], that.v[nextIndex]], done: false} : {done: true};
+					}
+				};
+			},
+			'keys': function( ){
+				var nextIndex = 0, that = this;
+				return {
+					next: function() {
+						return nextIndex !== that.size ? {value: that.k[nextIndex++], done: false} : {done: true};
+					}
+				};
+			},
+			'values': function( ){
+				var nextIndex = 0, that = this;
+				return {
+					next: function() {
+						return nextIndex !== that.size ? {value: that.v[nextIndex++], done: false} : {done: true};
+					}
+				};
+			},
+			toString: function(){return '[object Map]'}
+		};
+		/*if (typeof Symbol === 'function'){
+			Map.prototype[Symbol.iterator] = Map.prototype.values;
+			Map.prototype[Symbol.toStringTag] = 'Map';
+		}*/
+	}
+	
+	// Set & WeakSet polyfill
+	if (!window.Set || !/*window.*/Set.values){
+		/*window.*/WeakSet = /*window.*/Set = function(raw){
+			k = this.k = [];
+			len = 0;
+			if (raw){
+				iterable = Object(raw);
+				// split up the data into two useable streams: one for keys (k), and one for values (v)
+				i = +iterable.length;
+				if (i !== i) // if i is NaN
+					throw new TypeError('(' + (raw.toString || iterable.toString)() + ') is not iterable');
+				
+				while (i--)
+					if (!~NaNsearch(k, iterable[i])) // if current is not already in the array
+						k[len++] = iterable[i]; // len++ increments len, but returns value before increment
+				k.reverse();
+			}
+			this.size = len;
+		}
+		/*window.*/Set.prototype = {
+			length: 0,
+			'delete': function( value ){
+				keycur = NaNsearch(this.k, value ); // k is for keys
+				if (!~keycur) return false;
+				this.k.splice(keycur, 1);
+				--this.size;
+				return true;
+			},
+			'add': function( value ){
+				keycur = NaNsearch(this.k, value);
+				if (!~keycur) keycur = this.size++;
+				this.k[keycur] = value;
+				return this;
+			},
+			'has': function( value ){
+				return NaNsearch(this.k, value) > -1;
+			},
+			'clear': function(){
+				this.k.length = this.size = 0;
+				//return undefined
+			},
+			'forEach': function( Func, thisArg ){
+				if(thisArg)
+					Func = Func.bind(thisArg);
+				var i = -1, len = this.size;
+				while (++i !== len) Func(this.k[i], this.k[i], this);
+			},
+			'entries': function(){
+				var nextIndex = -1, that = this;
+				return {
+					next: function() {
+						return ++nextIndex !== that.size ? {value: [that.k[nextIndex], that.k[nextIndex]], done: false} : {done: true};
+					}
+				};
+			},
+			'keys': function(){
+				var nextIndex = -1, that = this;
+				return {
+					next: function() {
+						return ++nextIndex !== that.size ? {value: that.k[nextIndex], done: false} : {done: true};
+					}
+				};
+			},
+			/*'values': function(){ // same as keys
+				var nextIndex = -1, that = this;
+				return {
+					next: function() {
+						return ++nextIndex !== that.size ? {value: that.k[nextIndex], done: false} : {done: true};
+					}
+				};
+			},*/
+			toString: function(){return '[object Set]'}
+		};
+		/*if (typeof Symbol === 'function'){
+			Set.prototype[Symbol.iterator] = Set.prototype.values;
+			Set.prototype[Symbol.toStringTag] = 'Set';
+			Set.prototype[Symbol.toPrimitive] = function(){return this.k};
+		}*/
+		/*window.*/Set.prototype.values = /*window.*/Set.prototype.keys;
+	};
+})(typeof global === 'undefined' ? window : global); // for NodeJS
