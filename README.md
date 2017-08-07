@@ -8,10 +8,11 @@ This is a fast, lightweight (~1.2kb uncompressed, and only 509 bytes gziped) Jav
 # When To & When Not To Use This Polyfill
 This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. Basicly, this polyfill is 100% standards-compliant except for 2 big things:
 
- * The iterator returned form the val
+ * The objects returned by the `values`, `keys`, and `entries` methods are not instances of MapIterator. However, no need to worry too much: solongas you do not check the constructor for, or use instanceof on, theese methods then your code will run fine.
+ * When this library polyfills un makes Maps and WeakMaps the same object, and likewise Sets and WeakSets the same object. (E.g. `Set `
 
 # Browser Support
-This polyfill should bring Map and WeakMap support to IE9.
+This polyfill should bring Map and WeakMap support to IE9 and above.
 
 # Sorta Important Memory-Leak Bug
 A potential problem with this polyfill, or many other Map polyfills, are 'memory leaks'. For example, if you set an object key in a map to a value, then unreference that object key, then the object will still be in memory because of the reference to it inside this polyfills internal look-up table. For example, in the native implementation of javascipt maps, this should not consume much memory, but in the polyfill it will:
