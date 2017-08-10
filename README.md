@@ -2,7 +2,7 @@
 This is a fast, lightweight (~1.98kb ungzipped, and only 703 bytes gziped) Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the script hosted @ dropbox by inserting the following into your `<head>`.
 
 ```HTML
-<script src="https://www.dropbox.com/s/rrsp5c8kmctklrj/mapPolyfill.min.js?dl=1" type="text/javascript"></script>
+<script src="https://www.dropbox.com/s/mxu7cxl5ubh3t3t/mapPolyfillv2.min.js?dl=1" type="text/javascript"></script>
 ```
 
 # When To & When Not To Use This Polyfill
