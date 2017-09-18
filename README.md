@@ -32,7 +32,6 @@ However, Benive has devised an alternative polyfill solution that fixed this mem
 
   * Even if the browser already supports WeakMaps (which most browsers now do), then Benive's solution will still overwrite the native `object.getOwnPropertyNames` method, resulting in making the rest of your code signifigantly slower even if the browser already supports WeakMaps.
   * Benive's solution has extensive usage of deeply nested function calls, resulting in a much slower performance in polyfilled browsers.
-  * Benive's solution makes extensive usage of object prototypes, making it much harder for supporting non-polyfilled browsers to optimize the rest of you code.
   * Benive's solution is, when compressed & gzipped, more than 2x the size of this polyfill.
 
 If you really do need his memory fix, then you used to be able to find it at <a href="https://github.com/Benvie/WeakMap">you can find it here</a>. However, his account appears to have been deleted from the github servers.
