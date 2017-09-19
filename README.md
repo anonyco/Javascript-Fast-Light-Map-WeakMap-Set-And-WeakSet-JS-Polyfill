@@ -9,7 +9,7 @@ This is a fast, lightweight (~1.94kb ungzipped, and only 703 bytes gziped) Javas
 This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. Basicly, this polyfill is 100% standards-compliant except for 2 big things:
 
  * The objects returned by the `values`, `keys`, and `entries` methods are not instances of MapIterator. However, no need to worry too much: solongas you do not check the constructor for, or use instanceof on, theese methods then your code will run fine.
- * When this library polyfills un makes Maps and WeakMaps the same object, and likewise Sets and WeakSets the same object. (E.g. `Set `
+ * When this library polyfills in unsupporting browsers, it attempts to makes Maps and WeakMaps the same object if the browser only supports Maps (but not WeakMaps), and likewise Sets and WeakSets the same object too. E.g. `Set === WeakSet` Will evaluate to true under theese circumstances.
 
 # Browser Support
 This polyfill should bring Map and WeakMap support to IE9 and above.
