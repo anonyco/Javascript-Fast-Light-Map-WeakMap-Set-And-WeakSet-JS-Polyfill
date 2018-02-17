@@ -1,14 +1,14 @@
 # Fast & Light Map, WeakMap, Set, & WeakSet Polyfill
-This is a fast, lightweight (~1.94kb ungzipped, and only 703 bytes gziped) Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the script hosted @ dropbox by inserting the following into your `<head>`.
+This is a fast, lightweight (~1.94kb ungzipped, and only 703 bytes gziped) Javascript Map and Weakmap polyfill. If you don't want to download the script, then you can always just use the script hosted at dropbox by inserting the following into your `<head>`.
 
 ```HTML
-<script src="https://www.dropbox.com/s/mxu7cxl5ubh3t3t/mapPolyfillv2.min.js?dl=1" type="text/javascript"></script>
+<script src="https://dl.dropboxusercontent.com/s/mxu7cxl5ubh3t3t/mapPolyfillv2.min.js?dl=0" type="text/javascript"></script>
 ```
 
 # When To & When Not To Use This Polyfill
 This polyfill differs from the other polyfills in that it reasonably sacrafices standard-conformity for lightweightness and fastness. Basicly, this polyfill is 100% standards-compliant except for 2 big things:
 
- * The objects returned by the `values`, `keys`, and `entries` methods are not instances of MapIterator. However, no need to worry too much: solongas you do not check the constructor for, or use instanceof on, theese methods then your code will run fine.
+ * The objects returned by the `values`, `keys`, and `entries` methods are not instances of MapIterator. However, no need to worry too much: solongas you do not check the constructor (`.constructor`) for theese methods or use `instanceof` on the return values of theese methods then your code will run fine.
  * When this library polyfills in unsupporting browsers, it attempts to makes Maps and WeakMaps the same object if the browser only supports Maps (but not WeakMaps), and likewise Sets and WeakSets the same object too. E.g. `Set === WeakSet` Will evaluate to true under theese circumstances.
 
 # Browser Support
