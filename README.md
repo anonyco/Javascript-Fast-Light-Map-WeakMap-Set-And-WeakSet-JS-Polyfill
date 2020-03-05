@@ -14,8 +14,8 @@ This polyfill differs from the other polyfills in that it reasonably sacrifices 
 # Browser Support
 This polyfill should bring Map and WeakMap support to IE9 and above.
 
-# Sorta Important Memory-Leak Bug
-A potential problem with this polyfill, or many other Map polyfills, are 'memory leaks'. For example, if you set an object key in a map to a value, then unreference that object key, then the object will still be in memory because of the reference to it inside this polyfills internal look-up table. For example, in the native implementation of JavaScipt `Map`s, this should not consume much memory, but in the polyfill it will:
+# Memory-Leak Bug
+A potential problem with this polyfill, or many other Map polyfills, are 'memory leaks'. For example, if you set an object key in a map to a value, then unreference that object key, then the object will still be in memory because of the reference to it inside this polyfill's internal look-up table. For example, in the native implementation of JavaScipt `Map`s, this should not consume much memory, but in the polyfill it will:
 
 ```javascript
     var myMap = new WeakMap(), longString = 'some random strang ', i=100e+6;
