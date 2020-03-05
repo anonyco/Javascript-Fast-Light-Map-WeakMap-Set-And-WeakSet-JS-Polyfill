@@ -22,15 +22,13 @@ A potential problem with this polyfill, or many other Map polyfills, are 'memory
     
     while (i--)
         myMap.set({}, longString += i)
-    
-    console.log(longString.length * myMap.length)
 ```
 
 The unavoidable, unfixable reason for this is because there is no way to assign weak references (or better yet, weak tables) to objects in JavaScript, which would allow the browser to know that its safe to ignore specific references to something.
 
 However, Benive has devised an alternative polyfill solution that fixed this memory leak bug by using properties on the objects, and covering up the fact that they exist. **Don't** go rushing to his polyfill just yet. It comes with many (quite severe) penalties that will damage your JavaScript's performance to a much greater extent than this memory leak:
 
-  * Even if the browser already supports WeakMaps (which most browsers now do), then Benive's solution will still overwrite the native `object.getOwnPropertyNames` method, resulting in making the rest of your code significantly slower even if the browser already supports WeakMaps.
+  * Even if the browser already supports WeakMaps (which most browsers now do), then Benive's solution will still overwrite the native `Object.getOwnPropertyNames` method, which can be detrimental to performance because it will force the JIST compiler to revert on its optimistic assumptions.
   * Benive's solution has extensive usage of deeply nested function calls, resulting in a much slower performance in polyfilled browsers.
   * Benive's solution is, when compressed & gzipped, more than 2x the size of this polyfill.
 
