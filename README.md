@@ -8,7 +8,7 @@ This is a fast, lightweight (~1.94kb ungzipped, and only 703 bytes gziped) JavaS
 # When To & When Not To Use This Polyfill
 This polyfill differs from the other polyfills in that it reasonably sacrifices standard-conformity for lightness and fastness. Basicaly, this polyfill is 100% standards-compliant except for 2 big things:
 
- * The objects returned by the `values`, `keys`, and `entries` methods are not instances of MapIterator. However, no need to worry too much: so long as you do not check the constructor (`.constructor`) for these methods or use `instanceof` on the return values of these methods then your code will run fine.
+ * The objects returned by the `values`, `keys`, and `entries` methods are not instances of MapIterator. There's no need to worry too much. So long as you do not check the constructor (`.constructor`) for these methods or use `instanceof` on the return values of these methods, your code will run fine.
  * When this library polyfills in unsupporting browsers, it attempts to makes Maps and WeakMaps the same object if the browser only supports Maps (but not WeakMaps), and likewise Sets and WeakSets the same object too. E.g. `Set === WeakSet` Will evaluate to true under these circumstances.
 
 # Browser Support
